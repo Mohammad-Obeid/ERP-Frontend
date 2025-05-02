@@ -1,0 +1,21 @@
+.container{
+    background-color: beige;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center; 
+    display: inline-flexbox;
+    border: 4px solid black;
+}
+.datasection{    
+    padding: 10px;
+    border-radius: 15px;
+}
+label{
+    width: 200px;
+    display: block;
+}
+.inputx{
+    width: 400px;
+    display: block;
+    border-radius: 7px;
+}

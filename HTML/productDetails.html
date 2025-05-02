@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="ERP-MAX" />
+    <title>Locations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/nav.css" />
+    <link rel="stylesheet" href="../CSS/productdetails.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="../images/Favicon.png" type="../image/x-icon" />
+  </head>
+  <body class="body">
+
+    <nav class="navbar">
+      <div class="container-fluid">
+        <div class="navbar-left">
+          <input
+            type="image"
+            src="../images/erpLogo.png"
+            class="navbar-brand"
+            style="height: 50px"
+            onclick="location.href='index.html'"
+          />
+          <ul class="navbar-nav" style="display: inline-block">
+            <li class="nav-item" style="display: inline-block; margin: 10px">
+              <a class="nav-link" href="products.html">Products</a>
+            </li>
+            <li class="nav-item" style="display: inline-block; margin: 10px">
+              <a class="nav-link" href="locations.html">Locations</a>
+            </li>
+            <li class="nav-item" style="display: inline-block; margin: 10px">
+              <a class="nav-link" href="movements.html">Movements</a>
+            </li>
+            <li class="nav-item" style="display: inline-block; margin: 10px">
+              <a class="nav-link" href="ReportTable.html">Reports</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <input type="submit" class="backbtn" value="back" onclick="location.href='products.html'">
+
+    <div class="container">
+      <h1>Product Details</h1>
+        <section class="datasection">
+            <form class="dataform">
+                <div class="mb-3">
+                    <label class="form-label label">Product Id</label>
+                    <input type="text" disabled class="inputx" value=>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label label">Product Name</label>
+                    <input type="text" disabled class="inputx">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label label">Product Barcode</label>
+                    <input type="text" disabled class="inputx">
+                </div>
+            </form>
+        </section>
+        <section class="table-section">
+          <h1>Product Balance</h1>
+          <div class="table-div">
+              <table class="table table-dark table-striped" style="border: 1px solid white;">
+                <thead>
+                  <tr>
+                    <th>Product Name</th>
+                    <th>Product Location</th>
+                    <th>Product Quantity</th>
+                  </tr>
+                </thead>
+                <tbody id="container">
+                </tbody>
+              </table>
+          </div>
+        </section>
+    </div>
+    <script>
+      function fetchbalance(id) {
+  fetch(`http://localhost:8080/api/v1/product-movement/product/${id}`)
+    .then(response => {
+      if (!response.ok) {
+      const section = document.querySelector('.table-section');
+      section.style.visibility = 'hidden';
+      throw new Error("No Available Data");
+    }
+      return response.json();
+    })
+    .then(data =>{
+      let i = 0;
+        const container = document.getElementById('container');
+        container.innerHTML ='';
+        data.forEach(element => {
+          const trr = document.createElement("tr")
+          i+=1;
+          trr.innerHTML = `
+            <td>${element.productName}</td>
+            <td>${element.location}</td>
+            <td>${element.quantity}</td>
+          `;
+          container.appendChild(trr);
+        });
+    })
+}
+
+
+
+
+      class Product{
+        constructor(id, name, barcode){
+          this.id=id;
+          this.name=name;
+          this.barcode=barcode;
+        }
+      }
+
+      const raw = localStorage.getItem("selectedProduct");
+  const data = JSON.parse(raw);
+
+  // Create a Product instance (optional, for structured use)
+  const prod = new Product(data.id, data.name, data.barcode);
+
+  // Debug
+  // Set values to form inputs
+  const inputs = document.querySelectorAll('.inputx');
+  inputs[0].value = prod.id;
+  inputs[1].value = prod.name;
+  inputs[2].value = prod.barcode;
+
+  fetchbalance(prod.id);
+    </script>
+   
+<style>
+  .backbtn{
+            width: 120px;
+            border: solid black;
+            border-radius: 19px;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 10px;
+            margin-left: 2px;
+            display: inline-block;
+        }
+
+        .backbtn:hover{
+            color: tomato;
+        }
+</style>
+  </body>
+</html>

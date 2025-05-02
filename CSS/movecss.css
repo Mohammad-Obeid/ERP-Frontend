@@ -1,0 +1,43 @@
+.container{
+    margin: 40px;
+    padding: 10px;
+    border: 3px solid green;
+    justify-content: center;
+    align-items: center; 
+}
+.tabl{
+    min-width: 1000px;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.paginationControls button:not(:disabled):hover {
+    background-color: #4158b1;
+}
+
+.pagination {
+    text-align: center;
+    padding-bottom: 50px;
+    justify-content: center;
+    align-items: center; 
+    
+}
+
+.page-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    background-color: #5371ff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+.page-btn:hover {
+    background-color: #4056b5;
+}
+
+#currentPage {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin: 0 ;
+}
