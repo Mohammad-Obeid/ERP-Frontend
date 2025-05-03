@@ -54,10 +54,12 @@
         <input type="text" placeholder="Quantity" class="form-control">
     </div>
         <div>
-            <input type="submit" value="Create"class="createbtn">
+            <button type="button" class="createbtn" onclick="addNewProduct()">Create</button>
         </div>
        </form>
       </div>
+
+      
       <style>
         .createbtn{
             width: 100px;
@@ -89,7 +91,40 @@
         .backbtn:hover{
             color: aqua; 
         }
-
       </style>
+      <script>
+        class Product{
+        constructor(productName, productBarcode){
+          this.productName=productName;
+          this.productBarcode=productBarcode;
+        }
+      }
+      function addNewProduct(){
+      const inputs = document.querySelectorAll('.form-control');
+          const newprod = new Product(inputs[0].value,inputs[1].value);
+          console.log(JSON.stringify(newprod))
+          fetch(`http://localhost:8080/api/v1/product`,
+            {
+              method:'POST',
+              headers:{'Content-Type': 'application/json'},
+              body: JSON.stringify(newprod),
+            })
+            .then(response =>{
+              if(!response.ok) throw new Error('Cant Add New Product');
+              return response.json();
+            })
+            .then(data =>{
+              inputs.forEach(input => {
+                if (input.type === 'text') input.value = '';
+              });
+              location.href= 'products.html';
+              
+            })
+            
+
+      }
+
+
+      </script>
 </body>
 </html>

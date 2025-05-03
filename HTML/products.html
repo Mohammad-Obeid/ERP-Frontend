@@ -93,7 +93,7 @@
                   <h5 class="card-title">${product.productName}</h5>
                   <p class="card-text">Barcode: ${product.productBarcode}</p>
                   <a href="#" class="btn btn-primary" onclick='viewProduct(${JSON.stringify(prod)})'>View Details</a>
-                  <a href="editproduct.html" class="btn btn-success" onclick='editProduct(${JSON.stringify(prod)})'>Edit</a>
+                  <a href="#" class="btn btn-success" onclick='editProduct(${JSON.stringify(prod)})'>Edit</a>
                 </div>
               `;
               container.appendChild(card);
@@ -111,6 +111,7 @@
 
       function editProduct(product) {
         localStorage.setItem("selectedProduct", JSON.stringify(product));
+        location.href= 'editProduct.html';
       }
 
     
