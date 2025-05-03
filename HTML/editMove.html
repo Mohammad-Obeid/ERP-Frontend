@@ -38,34 +38,85 @@
         </div>
       </div>
     </nav>
-    <input type="submit" class="backbtn" value="back" onclick="location.href='locations.html'">
+    <input type="submit" class="backbtn" value="back" onclick="location.href='movements.html'">
 
     <div class="container">
-      <h1>location Details</h1>
+      <h1>Movement Details</h1>
         <section class="datasection" style="display: flex; align-items: center; justify-content: center;">
             <form class="dataform">
                 <div class="mb-3">
-                    <label class="form-label label" style="color: darkblue;">Location Id</label>
+                    <label class="form-label" style="color: darkblue;">Movement Id</label>
                     <input type="text" disabled class="inputx">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label label">Location Name</label>
+                    <label class="form-label">Movement Date</label>
+                    <input type="text" disabled class="inputx">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">From Location</label>
                     <input type="text" class="inputx">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label label">Location Code</label>
+                    <label class="form-label">To Location</label>
                     <input type="text" class="inputx">
                 </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Product Name</label>
+                    <input type="text" disabled class="inputx">
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Product Id</label>
+                    <input type="text" disabled class="inputx">
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Quantity</label>
+                    <input type="text" class="inputx">
+                </div>
+
                 <div>
                     <button type="button" class="updatebtn" onclick="edit()">Update</button>
                 </div>
             </form>
         </section>
     </div>
-    <style>
+    <script>
+        const mov = JSON.parse(localStorage.getItem("movement"));
+        const inputs = document.querySelectorAll('.inputx');
+        inputs[0].value = mov.id;
+        inputs[1].value = new Date(mov.movementDate).toLocaleString();
+        inputs[2].value = mov.fromLocation;
+        inputs[3].value = mov.toLocation;
+        inputs[4].value = mov.productName;
+        inputs[5].value = mov.productId;
+        inputs[6].value = mov.quantity;
+    </script>
+   
+<style>
+  .backbtn{
+            width: 120px;
+            border: solid black;
+            border-radius: 19px;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 10px;
+            margin-left: 2px;
+            display: inline-block;
+        }
 
+        .backbtn:hover{
+            color: tomato;
+        }
+
+        
 .container{
     background-color: beige;
     margin-top: 20px;
@@ -105,58 +156,6 @@ label{
         .updatebtn:active{ 
             color: aqua; 
             background-color: black; 
-        }
-    </style>
-    <script>
-    class Location{
-        constructor(id,locationName,locationCode){
-          this.id=id;
-          this.locationName=locationName;
-          this.locationCode=locationCode;
-        }
-      }
-
-    const raw = localStorage.getItem("selectedLocation");
-    const data = JSON.parse(raw);
-    const loca = new Location(data.id, data.locationName, data.locationCode);
-    const inputs = document.querySelectorAll('.inputx');
-    inputs[0].value = loca.id;
-    inputs[1].value = loca.locationName;
-    inputs[2].value = loca.locationCode;
-    fetchbalance(loca.locationName);
-
-
-    function update(){
-        const loc = new Location(inputs[0].value,inputs[1].value,inputs[2].value);
-        fetch(`http://localhost:8080/api/v1/location`,{
-            method:'PATCH',
-            headers:{'Content-Type': 'application/json'},
-            body:JSON.stringify(loc)
-        })
-        .then(response =>{
-            if(!response.ok) throw new Error("can't Update")
-            return response.json();
-        })
-        .then(data =>{
-            console.log(data);
-        })
-    }
-</script>
-   
-<style>
-  .backbtn{
-            width: 120px;
-            border: solid black;
-            border-radius: 19px;
-            text-align: center;
-            padding: 5px;
-            margin-bottom: 10px;
-            margin-left: 2px;
-            display: inline-block;
-        }
-
-        .backbtn:hover{
-            color: tomato;
         }
 </style>
   </body>

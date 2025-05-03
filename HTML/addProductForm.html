@@ -31,7 +31,7 @@
       </nav>
       
       <div>
-        <input type="submit" class="backbtn" value="back" onclick="location.href='products.html'">
+        <input type="submit" class="backbtn" value="back" onclick="back()">
     </div>
     
     <div class="card" style="background-color: tomato; width: 600px;
@@ -60,38 +60,7 @@
       </div>
 
       
-      <style>
-        .createbtn{
-            width: 100px;
-            border: solid black;
-            border-radius: 19px; 
-            text-align: center;
-            margin-left: 30%;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
-        .createbtn:hover{
-                color: tomato;
-        }
-        .createbtn:active{ 
-            color: aqua; 
-            background-color: black; 
-        }
-
-        .backbtn{
-            width: 120px;
-            border: solid black;
-            border-radius: 19px; 
-            text-align: center;
-            padding: 5px;
-            margin-bottom: 10px;
-            margin-left: 2px;
-            display: inline-block;
-        }
-        .backbtn:hover{
-            color: aqua; 
-        }
-      </style>
+      
       <script>
         class Product{
         constructor(productName, productBarcode){
@@ -99,10 +68,33 @@
           this.productBarcode=productBarcode;
         }
       }
+      function back(){
+        const loc = JSON.parse(localStorage.getItem('selectedLocation'));
+        if(loc==null){
+          location.href='products.html'
+        }
+        location.href='locationDetails.html'
+      }
+      function getLocation(){
+        const loc = JSON.parse(localStorage.getItem('selectedLocation'));
+        const inputs = document.querySelectorAll('.form-control');
+        if(loc!=null){
+          inputs[2].value = loc.locationName;
+          inputs[2].disabled=true;
+        }
+
+      }
+      getLocation()
+      class Movement{
+        constructor(toLocation,productId,quantity){
+          this.toLocation=toLocation;
+          this.productId=productId;
+          this.quantity=quantity;
+        }
+      }
       function addNewProduct(){
       const inputs = document.querySelectorAll('.form-control');
           const newprod = new Product(inputs[0].value,inputs[1].value);
-          console.log(JSON.stringify(newprod))
           fetch(`http://localhost:8080/api/v1/product`,
             {
               method:'POST',
@@ -114,17 +106,68 @@
               return response.json();
             })
             .then(data =>{
-              inputs.forEach(input => {
+              const movement = new Movement(inputs[2].value,data.id,inputs[3].value);
+              fetch(`http://localhost:8080/api/v1/product-movement`,{
+                method: "POST",
+                headers:{'Content-Type': 'application/json'},
+                body: JSON.stringify(movement)
+              })
+              .then(response =>{
+                if(!response.ok) throw new Error("Can't Add Movement")
+                return response.json();
+              })
+              .then(data =>{
+                inputs.forEach(input => {
                 if (input.type === 'text') input.value = '';
+                const loc = JSON.parse(localStorage.getItem('selectedLocation'));
+                if(loc==null){
+                  location.href='products.html'
+                }
+              // localStorage.removeItem('selectedLocation')
+                location.href='locationDetails.html'
               });
-              location.href= 'products.html';
-              
+
+              })
             })
-            
-
       }
-
-
       </script>
+
+
+
+
+
+
+<style>
+  .createbtn{
+      width: 100px;
+      border: solid black;
+      border-radius: 19px; 
+      text-align: center;
+      margin-left: 30%;
+      padding: 5px;
+      margin-bottom: 10px;
+  }
+  .createbtn:hover{
+          color: tomato;
+  }
+  .createbtn:active{ 
+      color: aqua; 
+      background-color: black; 
+  }
+
+  .backbtn{
+      width: 120px;
+      border: solid black;
+      border-radius: 19px; 
+      text-align: center;
+      padding: 5px;
+      margin-bottom: 10px;
+      margin-left: 2px;
+      display: inline-block;
+  }
+  .backbtn:hover{
+      color: aqua; 
+  }
+</style>
 </body>
 </html>
