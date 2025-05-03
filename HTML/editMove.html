@@ -38,7 +38,7 @@
         </div>
       </div>
     </nav>
-    <input type="submit" class="backbtn" value="back" onclick="location.href='movements.html'">
+    <input type="submit" class="backbtn" value="back" onclick="back()">
 
     <div class="container">
       <h1>Movement Details</h1>
@@ -56,13 +56,15 @@
 
                 <div class="mb-3">
                     <label class="form-label">From Location</label>
-                    <input type="text" class="inputx">
-                </div>
-
-                <div class="mb-3">
+                    <select class="form-select" id="fromLocationSelect">
+                    </select>
+                  </div>
+                  
+                  <div class="mb-3">
                     <label class="form-label">To Location</label>
-                    <input type="text" class="inputx">
-                </div>
+                    <select class="form-select" id="toLocationSelect">
+                    </select>
+                  </div>
 
 
                 <div class="mb-3">
@@ -83,22 +85,83 @@
                 </div>
 
                 <div>
-                    <button type="button" class="updatebtn" onclick="edit()">Update</button>
+                    <button type="button" class="updatebtn" onclick="update()">Update</button>
                 </div>
             </form>
         </section>
     </div>
     <script>
+        class Movement{
+        constructor(id,toLocation,fromLocation,productId,quantity){
+          this.id = id;
+          this.toLocation=toLocation;
+          this.fromLocation=fromLocation;
+          this.productId=productId;
+          this.quantity=quantity;
+        }
+      }
+
         const mov = JSON.parse(localStorage.getItem("movement"));
         const inputs = document.querySelectorAll('.inputx');
+        const sels = document.querySelectorAll('.form-select');
+      
         inputs[0].value = mov.id;
         inputs[1].value = new Date(mov.movementDate).toLocaleString();
-        inputs[2].value = mov.fromLocation;
-        inputs[3].value = mov.toLocation;
-        inputs[4].value = mov.productName;
-        inputs[5].value = mov.productId;
-        inputs[6].value = mov.quantity;
-    </script>
+        inputs[2].value = mov.productName;
+        inputs[3].value = mov.productId;
+        inputs[4].value = mov.quantity;
+      
+        fetch('http://localhost:8080/api/v1/location/list')
+          .then(res => res.json())
+          .then(data => {
+            const locations = data.locations;
+      
+            locations.forEach(loc => {
+              const option1 = document.createElement('option');
+              option1.value = loc.locationName;
+              option1.textContent = `${loc.locationName} (${loc.locationCode})`;
+      
+              const option2 = option1.cloneNode(true);
+      
+              sels[0].appendChild(option1);
+              sels[1].appendChild(option2);
+            });
+      
+            sels[0].value = mov.fromLocation;
+            sels[1].value = mov.toLocation;
+          })
+          .catch(err => {
+            console.error('Failed to load locations:', err);
+          });
+          function update(){
+          const newmov = new Movement(inputs[0].value,
+          sels[1].value,
+          sels[0].value,
+          inputs[3].value,
+          inputs[4].value
+          )
+          fetch(`http://localhost:8080/api/v1/product-movement`,{
+            method:"PATCH",
+            headers:{'Content-Type': 'application/json'},
+            body: JSON.stringify(newmov)
+          })
+          .then(response =>{
+            if(!response.ok) throw new Error("Can't Update Movement");
+            return response.json();
+          })
+          .then(data =>{
+            localStorage.removeItem("movement")
+            location.href = 'movements.html';
+          })
+        }
+
+        function back(){
+            localStorage.removeItem("movement")
+            location.href = 'movements.html';
+        }
+
+      </script>
+      
    
 <style>
   .backbtn{
