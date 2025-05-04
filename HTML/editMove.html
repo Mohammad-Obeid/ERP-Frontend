@@ -6,11 +6,18 @@
     <title>Location Details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/nav.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="../images/Favicon.png" type="../image/x-icon" />
+    <link rel="stylesheet" href="../CSS/editMove.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="../images/Favicon.png"
+      type="../image/x-icon"
+    />
   </head>
-  <body class="body" style="background-color: bisque;">
-
+  <body class="body" style="background-color: bisque">
     <nav class="navbar">
       <div class="container-fluid">
         <div class="navbar-left">
@@ -38,188 +45,60 @@
         </div>
       </div>
     </nav>
-    <input type="submit" class="backbtn" value="back" onclick="back()">
+    <input type="submit" class="backbtn" value="back" onclick="back()" />
 
     <div class="container">
       <h1>Movement Details</h1>
-        <section class="datasection" style="display: flex; align-items: center; justify-content: center;">
-            <form class="dataform">
-                <div class="mb-3">
-                    <label class="form-label" style="color: darkblue;">Movement Id</label>
-                    <input type="text" disabled class="inputx">
-                </div>
+      <section
+        class="datasection"
+        style="display: flex; align-items: center; justify-content: center"
+      >
+        <form class="dataform">
+          <div class="mb-3">
+            <label class="form-label" style="color: darkblue"
+              >Movement Id</label
+            >
+            <input type="text" disabled class="inputx" />
+          </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Movement Date</label>
-                    <input type="text" disabled class="inputx">
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Movement Date</label>
+            <input type="text" disabled class="inputx" />
+          </div>
 
-                <div class="mb-3">
-                    <label class="form-label">From Location</label>
-                    <select class="form-select" id="fromLocationSelect">
-                    </select>
-                  </div>
-                  
-                  <div class="mb-3">
-                    <label class="form-label">To Location</label>
-                    <select class="form-select" id="toLocationSelect">
-                    </select>
-                  </div>
+          <div class="mb-3">
+            <label class="form-label">From Location</label>
+            <select class="form-select" id="fromLocationSelect"></select>
+          </div>
 
+          <div class="mb-3">
+            <label class="form-label">To Location</label>
+            <select class="form-select" id="toLocationSelect"></select>
+          </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Product Name</label>
-                    <input type="text" disabled class="inputx">
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Product Name</label>
+            <input type="text" disabled class="inputx" />
+          </div>
 
+          <div class="mb-3">
+            <label class="form-label">Product Id</label>
+            <input type="text" disabled class="inputx" />
+          </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Product Id</label>
-                    <input type="text" disabled class="inputx">
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="text" class="inputx" />
+          </div>
 
-
-                <div class="mb-3">
-                    <label class="form-label">Quantity</label>
-                    <input type="text" class="inputx">
-                </div>
-
-                <div>
-                    <button type="button" class="updatebtn" onclick="update()">Update</button>
-                </div>
-            </form>
-        </section>
+          <div>
+            <button type="button" class="updatebtn" onclick="update()">
+              Update
+            </button>
+          </div>
+        </form>
+      </section>
     </div>
-    <script>
-        class Movement{
-        constructor(id,toLocation,fromLocation,productId,quantity){
-          this.id = id;
-          this.toLocation=toLocation;
-          this.fromLocation=fromLocation;
-          this.productId=productId;
-          this.quantity=quantity;
-        }
-      }
-
-        const mov = JSON.parse(localStorage.getItem("movement"));
-        const inputs = document.querySelectorAll('.inputx');
-        const sels = document.querySelectorAll('.form-select');
-      
-        inputs[0].value = mov.id;
-        inputs[1].value = new Date(mov.movementDate).toLocaleString();
-        inputs[2].value = mov.productName;
-        inputs[3].value = mov.productId;
-        inputs[4].value = mov.quantity;
-      
-        fetch('http://localhost:8080/api/v1/location/list')
-          .then(res => res.json())
-          .then(data => {
-            const locations = data.locations;
-      
-            locations.forEach(loc => {
-              const option1 = document.createElement('option');
-              option1.value = loc.locationName;
-              option1.textContent = `${loc.locationName} (${loc.locationCode})`;
-      
-              const option2 = option1.cloneNode(true);
-      
-              sels[0].appendChild(option1);
-              sels[1].appendChild(option2);
-            });
-      
-            sels[0].value = mov.fromLocation;
-            sels[1].value = mov.toLocation;
-          })
-          .catch(err => {
-            console.error('Failed to load locations:', err);
-          });
-          function update(){
-          const newmov = new Movement(inputs[0].value,
-          sels[1].value,
-          sels[0].value,
-          inputs[3].value,
-          inputs[4].value
-          )
-          fetch(`http://localhost:8080/api/v1/product-movement`,{
-            method:"PATCH",
-            headers:{'Content-Type': 'application/json'},
-            body: JSON.stringify(newmov)
-          })
-          .then(response =>{
-            if(!response.ok) throw new Error("Can't Update Movement");
-            return response.json();
-          })
-          .then(data =>{
-            localStorage.removeItem("movement")
-            location.href = 'movements.html';
-          })
-        }
-
-        function back(){
-            localStorage.removeItem("movement")
-            location.href = 'movements.html';
-        }
-
-      </script>
-      
-   
-<style>
-  .backbtn{
-            width: 120px;
-            border: solid black;
-            border-radius: 19px;
-            text-align: center;
-            padding: 5px;
-            margin-bottom: 10px;
-            margin-left: 2px;
-            display: inline-block;
-        }
-
-        .backbtn:hover{
-            color: tomato;
-        }
-
-        
-.container{
-    background-color: beige;
-    margin-top: 20px;
-    justify-content: center;
-    width: 600px;
-    align-items: center; 
-    display: inline-flexbox;
-    border: 4px solid black;
-}
-.datasection{    
-    padding: 10px;
-    border-radius: 15px;
-}
-label{
-    width: 200px;
-    display: block;
-}
-.inputx{
-    width: 400px;
-    display: block;
-    border-radius: 7px;
-}
-
-
-        .updatebtn{
-            width: 100px;
-            border: solid black;
-            border-radius: 19px; 
-            text-align: center;
-            margin-left: 30%;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
-        .updatebtn:hover{
-                color: tomato;
-        }
-        .updatebtn:active{ 
-            color: aqua; 
-            background-color: black; 
-        }
-</style>
   </body>
 </html>
+<script src="../JS/editMove.js"></script>

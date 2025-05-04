@@ -1,0 +1,28 @@
+.backbtn{
+    width: 120px;
+    border: solid black;
+    border-radius: 19px;
+    text-align: center;
+    padding: 5px;
+    margin-top: 10px;
+    margin-left: 2px;
+    display: inline-block;
+}
+
+.backbtn:hover{
+    color: tomato;
+}
+
+.addNewProduct{
+  width: 440px;
+  border: solid black;
+  border-radius: 19px;
+  text-align: center;
+  padding: 5px;
+  display: flex;
+  margin-left: 55%;
+  margin-top: 10px;
+}
+.addNewProduct:hover{
+color: tomato;
+}
