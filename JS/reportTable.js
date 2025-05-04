@@ -12,6 +12,35 @@ function getMovements(page) {
       document.getElementById("currentPage").textContent = `Page ${
         data.pageNum + 1
       }`;
+      let numOfPages = data.numOfPages;
+      const nextButton = document.getElementById("nextPageBtn");
+      const prevButton = document.getElementById("prevPageBtn");
+
+      if (currentPage <= 0) {
+        prevButton.disabled = true;
+        prevButton.style.backgroundColor = "darkgray";
+        prevButton.style.cursor = "not-allowed";
+        prevButton.style.color = "white";
+      } else {
+        prevButton.disabled = false;
+        prevButton.style.backgroundColor = "";
+        prevButton.style.cursor = "pointer";
+        prevButton.style.color = "";
+      }
+
+      let pageN = Number(numOfPages);
+
+      if (currentPage >= numOfPages || numOfPages === 0) {
+        nextButton.disabled = true;
+        nextButton.style.backgroundColor = "darkgray";
+        nextButton.style.cursor = "not-allowed";
+        nextButton.style.color = "white";
+      } else {
+        nextButton.disabled = false;
+        nextButton.style.backgroundColor = "";
+        nextButton.style.cursor = "pointer";
+        nextButton.style.color = "";
+      }
       moves.forEach((element) => {
         const tr = document.createElement("tr");
         const date = new Date(element.movementDate);

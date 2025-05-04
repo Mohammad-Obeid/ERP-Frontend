@@ -11,6 +11,7 @@
     width: fit-content;
     min-width: 1000px;
     max-width: 1000px;
+    height: 90%;
     margin: 20px ;
     border: 2px solid black;
     border-radius: 5px;
