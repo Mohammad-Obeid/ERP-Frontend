@@ -1,10 +1,13 @@
 .container {
-    width: 700px;
-    background-color: tomato;
+    background-color: blanchedalmond;
     border: 3px solid black;
     border-radius: 5px;
-    margin: 50px auto; 
+    /* margin: 50px auto;  */
+    margin-top: 20px;
     text-align: center;
+    min-height: 540px;
+    max-height: 740px;
+    padding: 5px;
   }
 
 .paginationControls button:not(:disabled):hover {
@@ -14,7 +17,7 @@
 .pagination {
     text-align: center;
     margin-top: 20px;
-    margin-left: 17%;
+    margin-left: 22%;
 }
 
 .page-btn {
@@ -58,6 +61,7 @@ footer {
     text-align: center;
     position: relative;
     bottom: 0;
-    padding: 20px;
     margin-bottom: 0px;
+    padding: 10px;
+    
   }

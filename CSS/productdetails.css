@@ -9,6 +9,8 @@
 .datasection{    
     padding: 10px;
     border-radius: 15px;
+    justify-content: center;
+    align-items: center;
 }
 label{
     width: 200px;
@@ -41,7 +43,7 @@ footer {
     text-align: center;
     padding: 20px;
     position: relative;
-    margin-top: 20px;
+    margin-top: 62px;
     bottom: 0;
     margin-bottom: 0px;
   }
