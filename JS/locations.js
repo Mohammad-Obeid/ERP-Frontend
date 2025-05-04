@@ -6,7 +6,7 @@ class Location {
   }
 }
 let currentPage = 0;
-
+let numOfPages = 0;
 function fetchProducts(page) {
   fetch(`http://localhost:8080/api/v1/location?page=${page}`)
     .then((response) => {
@@ -16,11 +16,41 @@ function fetchProducts(page) {
     .then((data) => {
       const container = document.getElementById("location-container");
       container.innerHTML = ""; // Clear existing cards
-
+      numOfPages = data.numOfPages;
       const location = data.locations;
       document.getElementById("currentPage").textContent = `Page ${
         data.pageNum + 1
       }`;
+
+      const nextButton = document.getElementById("nextPageBtn");
+      const prevButton = document.getElementById("prevPageBtn");
+
+      if (currentPage <= 0) {
+        prevButton.disabled = true;
+        prevButton.style.backgroundColor = "darkgray";
+        prevButton.style.cursor = "not-allowed";
+        prevButton.style.color = "white";
+      } else {
+        prevButton.disabled = false;
+        prevButton.style.backgroundColor = "";
+        prevButton.style.cursor = "pointer";
+        prevButton.style.color = "";
+      }
+
+      let pageN = Number(numOfPages);
+      console.log(pageN);
+
+      if (currentPage >= numOfPages || numOfPages === 0) {
+        nextButton.disabled = true;
+        nextButton.style.backgroundColor = "darkgray";
+        nextButton.style.cursor = "not-allowed";
+        nextButton.style.color = "white";
+      } else {
+        nextButton.disabled = false;
+        nextButton.style.backgroundColor = "";
+        nextButton.style.cursor = "pointer";
+        nextButton.style.color = "";
+      }
 
       location.forEach((location) => {
         const loc = new Location(
@@ -52,7 +82,7 @@ function fetchProducts(page) {
       console.error("Error fetching products:", error);
     });
 }
-
+fetchProducts(currentPage);
 function viewLocation(loc) {
   localStorage.setItem("selectedLocation", JSON.stringify(loc));
   location.href = "locationDetails.html";
@@ -62,13 +92,16 @@ function editLocation(loc) {
   localStorage.setItem("selectedLocation", JSON.stringify(loc));
   location.href = "editLocation.html";
 }
+
 function changePage(direction) {
   if (direction === "next") {
-    currentPage++;
-  } else if (direction === "prev" && currentPage > 0) {
-    currentPage--;
+    if (currentPage < numOfPages) {
+      currentPage++;
+    }
+  } else if (direction === "prev") {
+    if (currentPage > 0) {
+      currentPage--;
+    }
   }
   fetchProducts(currentPage);
 }
-
-fetchProducts(currentPage);

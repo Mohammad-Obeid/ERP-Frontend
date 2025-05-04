@@ -1,11 +1,11 @@
-.container{
+.container {
     width: 700px;
-    height: 620px;
     background-color: tomato;
     border: 3px solid black;
     border-radius: 5px;
-    margin-top: 50px;
-}
+    margin: 50px auto; 
+    text-align: center;
+  }
 
 .paginationControls button:not(:disabled):hover {
     background-color: #4158b1;
@@ -50,3 +50,14 @@
 .backbtn:hover{
     color: tomato;
 }
+
+footer {
+    width: 100%;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    padding: 20px;
+    margin-bottom: 0px;
+  }

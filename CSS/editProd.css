@@ -30,3 +30,14 @@ margin-top: 10px;
 .backbtn:hover{
 color: tomato;
 }
+
+footer {
+    width: 100%;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 0px;
+  }

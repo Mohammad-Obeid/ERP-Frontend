@@ -1,4 +1,5 @@
 let currentPage = 0;
+let numOfPages = 0;
 class Product {
   constructor(id, name, barcode) {
     this.id = id;
@@ -20,6 +21,37 @@ function fetchProducts(page) {
       document.getElementById("currentPage").textContent = `Page ${
         data.pageNum + 1
       }`;
+      numOfPages = data.numOfPages;
+      const nextButton = document.getElementById("nextPageBtn");
+      const prevButton = document.getElementById("prevPageBtn");
+
+      if (currentPage <= 0) {
+        prevButton.disabled = true;
+        prevButton.style.backgroundColor = "darkgray";
+        prevButton.style.cursor = "not-allowed";
+        prevButton.style.color = "white";
+      } else {
+        prevButton.disabled = false;
+        prevButton.style.backgroundColor = "";
+        prevButton.style.cursor = "pointer";
+        prevButton.style.color = "";
+      }
+
+      let pageN = Number(numOfPages) - 1;
+      console.log(pageN);
+      console.log(currentPage);
+
+      if (currentPage > pageN || numOfPages === 0) {
+        nextButton.disabled = true;
+        nextButton.style.backgroundColor = "darkgray";
+        nextButton.style.cursor = "not-allowed";
+        nextButton.style.color = "white";
+      } else {
+        nextButton.disabled = false;
+        nextButton.style.backgroundColor = "";
+        nextButton.style.cursor = "pointer";
+        nextButton.style.color = "";
+      }
 
       products.forEach((product) => {
         const card = document.createElement("div");

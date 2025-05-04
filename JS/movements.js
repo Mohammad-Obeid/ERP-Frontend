@@ -23,6 +23,7 @@ class Movement {
   }
 }
 let currentPage = 0;
+let numOfPages = 0;
 function fetchMoves(page) {
   fetch(`http://localhost:8080/api/v1/product-movement?page=${currentPage}`)
     .then((response) => {
@@ -35,9 +36,31 @@ function fetchMoves(page) {
       }`;
       const container = document.getElementById("tablebody");
       container.innerHTML = "";
-
+      numOfPages = data.numOfPages;
       const moves = data.moves;
-
+      if (currentPage <= 0) {
+        prevButton.disabled = true;
+        prevButton.style.backgroundColor = "darkgray";
+        prevButton.style.cursor = "not-allowed";
+        prevButton.style.color = "white";
+      } else {
+        prevButton.disabled = false;
+        prevButton.style.backgroundColor = "";
+        prevButton.style.cursor = "pointer";
+        prevButton.style.color = "";
+      }
+      let pageNum = Number(numOfPages) - 1;
+      if (currentPage >= pageNum || numOfPages === 0) {
+        nextButton.disabled = true;
+        nextButton.style.backgroundColor = "darkgray";
+        nextButton.style.cursor = "not-allowed";
+        nextButton.style.color = "white";
+      } else {
+        nextButton.disabled = false;
+        nextButton.style.backgroundColor = "";
+        nextButton.style.cursor = "pointer";
+        nextButton.style.color = "";
+      }
       moves.forEach((move) => {
         const row = document.createElement("tr");
         row.id = move.id;
@@ -75,17 +98,24 @@ function fetchMoves(page) {
     });
 }
 
+fetchMoves(currentPage);
+
 function editMove(move) {
   localStorage.setItem("movement", JSON.stringify(move));
   location.href = "editMove.html";
 }
+const nextButton = document.getElementById("nextPageBtn");
+const prevButton = document.getElementById("prevPageBtn");
+
 function changePage(direction) {
   if (direction === "next") {
-    currentPage++;
-  } else if (direction === "prev" && currentPage > 0) {
-    currentPage--;
+    if (currentPage < numOfPages - 1) {
+      currentPage++;
+    }
+  } else if (direction === "prev") {
+    if (currentPage > 0) {
+      currentPage--;
+    }
   }
   fetchMoves(currentPage);
 }
-
-fetchMoves(currentPage);

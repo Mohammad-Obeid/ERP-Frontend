@@ -53,25 +53,39 @@
     <div
       class="card"
       style="
-        background-color: tomato;
+        background-color: blanchedalmond;
         width: 600px;
         align-items: center;
         left: 30%;
+        height: 400px;
         margin-top: 120px;
       "
     >
       <form>
         <div style="margin-bottom: 30px">
-          <h1 style="display: inline-block; padding: 5px; margin-bottom: 10px">
+          <h1
+            style="
+              display: inline-block;
+              padding: 5px;
+              margin-bottom: 10px;
+              color: tomato;
+            "
+          >
             Add New Product
           </h1>
         </div>
         <div class="mb-3">
-          <input type="text" placeholder="Product Name" class="form-control" />
+          <input
+            type="text"
+            placeholder="Product Name"
+            required
+            class="form-control"
+          />
         </div>
         <div class="mb-3">
           <input
             type="text"
+            required
             placeholder="Product Barcode"
             class="form-control"
           />
@@ -81,12 +95,15 @@
           <select class="form-select" id="toLocationSelect"></select>
         </div>
         <div class="mb-3">
-          <input type="text" placeholder="Quantity" class="form-control" />
+          <input
+            type="text"
+            placeholder="Quantity"
+            required
+            class="form-control"
+          />
         </div>
         <div>
-          <button type="button" class="createbtn" onclick="addNewProduct()">
-            Create
-          </button>
+          <button type="submit" class="createbtn">Create</button>
         </div>
       </form>
     </div>

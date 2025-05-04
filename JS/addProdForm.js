@@ -23,12 +23,11 @@ function getLocation() {
         const option1 = document.createElement("option");
         option1.value = loc.locationName;
         option1.textContent = `${loc.locationName} (${loc.locationCode})`;
-        sels[0].appendChild(option1); // this will now work correctly
+        sels[0].appendChild(option1);
       });
       const loc = JSON.parse(localStorage.getItem("selectedLocation"));
       if (loc != null) {
         sels[0].value = loc.locationName;
-        console.log(loc.locationName);
         sels[0].disabled = true;
       }
     })
@@ -45,43 +44,58 @@ class Movement {
     this.quantity = quantity;
   }
 }
-function addNewProduct() {
-  const inputs = document.querySelectorAll(".form-control");
-  const newprod = new Product(inputs[0].value, inputs[1].value);
+
+document.querySelector("form").addEventListener("submit", addNewProduct);
+
+function addNewProduct(event) {
+  event.preventDefault();
+
+  const inputs = document.querySelectorAll("input.form-control");
+  const sel = document.getElementById("toLocationSelect");
+
+  const productName = inputs[0].value.trim();
+  const productBarcode = inputs[1].value.trim();
+  const quantity = inputs[2].value.trim();
+
+  if (!productName || !productBarcode || !quantity || !sel.value) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  const newprod = new Product(productName, productBarcode);
+
   fetch(`http://localhost:8080/api/v1/product`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newprod),
   })
     .then((response) => {
-      if (!response.ok) throw new Error("Cant Add New Product");
+      if (!response.ok) throw new Error("Can't Add New Product");
       return response.json();
     })
     .then((data) => {
-      const sel = document.getElementById("toLocationSelect");
-      const movement = new Movement(sel.value, data.id, inputs[2].value);
-      console.log(sel.value);
-      fetch(`http://localhost:8080/api/v1/product-movement`, {
+      const movement = new Movement(sel.value, data.id, quantity);
+
+      return fetch(`http://localhost:8080/api/v1/product-movement`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(movement),
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Can't Add Movement");
-          return response.json();
-        })
-        .then((data) => {
-          inputs.forEach((input) => {
-            if (input.type === "text") input.value = "";
-            const loc = JSON.parse(localStorage.getItem("selectedLocation"));
-            console.log(loc);
-            if (loc === null) {
-              location.href = "products.html";
-            } else {
-              // localStorage.removeItem('selectedLocation')
-              location.href = "locationDetails.html";
-            }
-          });
-        });
+      });
+    })
+    .then((response) => {
+      if (!response.ok) throw new Error("Can't Add Movement");
+      return response.json();
+    })
+    .then(() => {
+      const loc = JSON.parse(localStorage.getItem("selectedLocation"));
+      if (loc === null) {
+        location.href = "products.html";
+      } else {
+        location.href = "locationDetails.html";
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Something went wrong. Check the console for details.");
     });
 }
