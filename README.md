@@ -6,7 +6,7 @@ This is the frontend for the Inventory Management System using HTML, CSS, and Ja
 
 - HTML5
 - CSS3
-- JavaScript (Vanilla)
+- JavaScript
 - RESTful API Integration
 
 ## 📁 Folder Structure
