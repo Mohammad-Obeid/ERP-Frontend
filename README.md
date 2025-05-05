@@ -72,5 +72,6 @@ This is the frontend for the Inventory Management System using HTML, CSS, and Ja
 
 **📊 Reports Page**
 
-![image](https://github.com/user-attachments/assets/e5b5bfc1-ac62-4b33-89d1-9c7cf5f699d4)
+![image](https://github.com/user-attachments/assets/6969f64a-ccd0-4223-9378-876bacf28336)
+
 
