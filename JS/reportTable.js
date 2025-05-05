@@ -1,15 +1,15 @@
 let currentPage = 0;
 function getMovements(page) {
-  fetch(`http://localhost:8080/api/v1/product-movement?page=${page}`)
+  fetch(`http://localhost:8080/api/v1/product-movement/new?page=${page}`)
     .then((response) => {
       if (!response.ok) throw new Error("No Available Data");
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       const cont = document.getElementById("table-container");
       cont.innerHTML = "";
-      const moves = data.moves;
+      const moves = data.balances;
+      console.log(moves);
       document.getElementById("currentPage").textContent = `Page ${
         data.pageNum + 1
       }`;
@@ -55,20 +55,13 @@ function getMovements(page) {
           hour12: false,
         });
         let prodName = "";
-        fetch(`http://localhost:8080/api/v1/product/${element.productId}`)
-          .then((response1) => {
-            if (!response1.ok) throw new Error("Cant Fetch Product");
-            return response1.json();
-          })
-          .then((data1) => {
-            prodName = data1.productName;
-            tr.innerHTML = `
-                    <td>${prodName}</td>
-                    <td>${element.toLocation}</td>
+
+        tr.innerHTML = `
+                    <td>${element.productName}</td>
+                    <td>${element.location}</td>
                     <td>${element.quantity}</td>
                 `;
-            cont.appendChild(tr);
-          });
+        cont.appendChild(tr);
       });
     });
 }
