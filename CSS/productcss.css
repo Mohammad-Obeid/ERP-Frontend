@@ -95,7 +95,8 @@
     color: white;
     text-align: center;
     padding: 0.625rem;
-    position: relative;
+    position: absolute;
     bottom: 0;
+
   }
   

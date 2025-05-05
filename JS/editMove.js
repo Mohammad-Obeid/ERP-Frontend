@@ -8,6 +8,13 @@ class Movement {
   }
 }
 
+class Movement2 {
+  constructor(id, quantity) {
+    this.id = id;
+    this.quantity = quantity;
+  }
+}
+
 const mov = JSON.parse(localStorage.getItem("movement"));
 const inputs = document.querySelectorAll(".inputx");
 const sels = document.querySelectorAll(".form-select");
@@ -17,6 +24,8 @@ inputs[1].value = new Date(mov.movementDate).toLocaleString();
 inputs[2].value = mov.productName;
 inputs[3].value = mov.productId;
 inputs[4].value = mov.quantity;
+
+const prevMov = new Movement2(inputs[0].value, 0);
 
 fetch("http://localhost:8080/api/v1/location/list")
   .then((res) => res.json())
@@ -49,25 +58,49 @@ function update() {
     inputs[4].value
   );
   if (sels[1].value != sels[0].value) {
-    fetch(`http://localhost:8080/api/v1/product-movement`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newmov),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Can't Update Movement");
-        return response.json();
-      })
-      .then((data) => {
-        localStorage.removeItem("movement");
-        location.href = "movements.html";
-      });
-  } else {
-    //todo: make an alert
+    if (Number(mov.quantity) === Number(inputs[4].value)) {
+      upd(newmov);
+    } else {
+      addNewMov(newmov);
+      prevMov.quantity = Number(mov.quantity) - Number(inputs[4].value);
+      upd(prevMov);
+    }
   }
 }
 
 function back() {
   localStorage.removeItem("movement");
   location.href = "movements.html";
+}
+
+function upd(move) {
+  fetch(`http://localhost:8080/api/v1/product-movement`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(move),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Can't Update Movement");
+      return response.json();
+    })
+    .then(() => {
+      localStorage.removeItem("movement");
+      location.href = "movements.html";
+    });
+}
+
+function addNewMov(mov) {
+  fetch(`http://localhost:8080/api/v1/product-movement`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(mov),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Can't Add Movement");
+      return response.json();
+    })
+    .then(() => {
+      localStorage.removeItem("movement");
+      location.href = "movements.html";
+    });
 }

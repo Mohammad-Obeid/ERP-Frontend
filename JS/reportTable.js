@@ -29,9 +29,9 @@ function getMovements(page) {
         prevButton.style.color = "";
       }
 
-      let pageN = Number(numOfPages);
+      let pageN = Number(numOfPages) - 1;
 
-      if (currentPage >= numOfPages || numOfPages === 0) {
+      if (currentPage >= pageN || numOfPages === 0) {
         nextButton.disabled = true;
         nextButton.style.backgroundColor = "darkgray";
         nextButton.style.cursor = "not-allowed";

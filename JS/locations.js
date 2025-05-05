@@ -37,7 +37,7 @@ function fetchProducts(page) {
         prevButton.style.color = "";
       }
 
-      let pageN = Number(numOfPages) - 1;
+      let pageN = Number(numOfPages);
 
       if (currentPage >= pageN || numOfPages === 0) {
         nextButton.disabled = true;
