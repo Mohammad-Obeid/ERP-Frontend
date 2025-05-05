@@ -31,6 +31,7 @@ function edit() {
       return response.json();
     })
     .then((data) => {
+      location.href = "products.html";
       console.log("Product updated:", data);
     })
     .catch((error) => {

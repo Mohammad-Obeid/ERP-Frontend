@@ -37,10 +37,9 @@ function fetchProducts(page) {
         prevButton.style.color = "";
       }
 
-      let pageN = Number(numOfPages);
-      console.log(pageN);
+      let pageN = Number(numOfPages) - 1;
 
-      if (currentPage >= numOfPages || numOfPages === 0) {
+      if (currentPage >= pageN || numOfPages === 0) {
         nextButton.disabled = true;
         nextButton.style.backgroundColor = "darkgray";
         nextButton.style.cursor = "not-allowed";
@@ -95,13 +94,9 @@ function editLocation(loc) {
 
 function changePage(direction) {
   if (direction === "next") {
-    if (currentPage < numOfPages) {
-      currentPage++;
-    }
-  } else if (direction === "prev") {
-    if (currentPage > 0) {
-      currentPage--;
-    }
+    currentPage++;
+  } else if (direction === "prev" && currentPage > 0) {
+    currentPage--;
   }
   fetchProducts(currentPage);
 }

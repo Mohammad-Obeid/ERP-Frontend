@@ -109,13 +109,9 @@ const prevButton = document.getElementById("prevPageBtn");
 
 function changePage(direction) {
   if (direction === "next") {
-    if (currentPage < numOfPages - 1) {
-      currentPage++;
-    }
-  } else if (direction === "prev") {
-    if (currentPage > 0) {
-      currentPage--;
-    }
+    currentPage++;
+  } else if (direction === "prev" && currentPage > 0) {
+    currentPage--;
   }
   fetchMoves(currentPage);
 }
