@@ -6,6 +6,7 @@ function getMovements(page) {
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       const cont = document.getElementById("table-container");
       cont.innerHTML = "";
       const moves = data.moves;
@@ -53,14 +54,21 @@ function getMovements(page) {
           second: "2-digit",
           hour12: false,
         });
-        tr.innerHTML = `
-                    <td>${element.productId}</td>
-                    <td>${element.fromLocation}</td>
+        let prodName = "";
+        fetch(`http://localhost:8080/api/v1/product/${element.productId}`)
+          .then((response1) => {
+            if (!response1.ok) throw new Error("Cant Fetch Product");
+            return response1.json();
+          })
+          .then((data1) => {
+            prodName = data1.productName;
+            tr.innerHTML = `
+                    <td>${prodName}</td>
                     <td>${element.toLocation}</td>
                     <td>${element.quantity}</td>
-                    <td>${formatted}</td>
                 `;
-        cont.appendChild(tr);
+            cont.appendChild(tr);
+          });
       });
     });
 }
