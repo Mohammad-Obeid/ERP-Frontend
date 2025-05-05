@@ -1,6 +1,5 @@
 class Movement {
-  constructor(id, toLocation, fromLocation, productId, quantity) {
-    this.id = id;
+  constructor(toLocation, fromLocation, productId, quantity) {
     this.toLocation = toLocation;
     this.fromLocation = fromLocation;
     this.productId = productId;
@@ -9,8 +8,9 @@ class Movement {
 }
 
 class Movement2 {
-  constructor(id, quantity) {
+  constructor(id, productId, quantity) {
     this.id = id;
+    this.productId = productId;
     this.quantity = quantity;
   }
 }
@@ -25,7 +25,11 @@ inputs[2].value = mov.productName;
 inputs[3].value = mov.productId;
 inputs[4].value = mov.quantity;
 
-const prevMov = new Movement2(inputs[0].value, 0);
+const prevMov = new Movement2(
+  inputs[0].value,
+  inputs[3].value,
+  inputs[4].value
+);
 
 fetch("http://localhost:8080/api/v1/location/list")
   .then((res) => res.json())
@@ -45,26 +49,32 @@ fetch("http://localhost:8080/api/v1/location/list")
 
     sels[0].value = mov.fromLocation;
     sels[1].value = mov.toLocation;
+    newmov = new Movement(
+      sels[0].value,
+      sels[1].value,
+      inputs[3].value,
+      inputs[4].value
+    );
   })
   .catch((err) => {
     console.error("Failed to load locations:", err);
   });
+
+//     this.toLocation = toLocation;
+//     this.fromLocation = fromLocation;
+//     this.productId = productId;
+//     this.quantity = quantity;
+
 function update() {
-  const newmov = new Movement(
-    inputs[0].value,
-    sels[1].value,
-    sels[0].value,
-    inputs[3].value,
-    inputs[4].value
-  );
   if (sels[1].value != sels[0].value) {
-    if (Number(mov.quantity) === Number(inputs[4].value)) {
-      upd(newmov);
-    } else {
-      addNewMov(newmov);
-      prevMov.quantity = Number(mov.quantity) - Number(inputs[4].value);
-      upd(prevMov);
-    }
+    newmov.toLocation = sels[1].value;
+    newmov.quantity = Number(inputs[4].value);
+    prevMov.quantity = Number(mov.quantity) - Number(inputs[4].value);
+    upd(prevMov);
+    addNewMov(newmov);
+
+    localStorage.removeItem("movement");
+    location.href = "movements.html";
   }
 }
 
@@ -83,10 +93,7 @@ function upd(move) {
       if (!response.ok) throw new Error("Can't Update Movement");
       return response.json();
     })
-    .then(() => {
-      localStorage.removeItem("movement");
-      location.href = "movements.html";
-    });
+    .then(() => {});
 }
 
 function addNewMov(mov) {
@@ -94,13 +101,8 @@ function addNewMov(mov) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(mov),
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error("Can't Add Movement");
-      return response.json();
-    })
-    .then(() => {
-      localStorage.removeItem("movement");
-      location.href = "movements.html";
-    });
+  }).then((response) => {
+    if (!response.ok) throw new Error("Can't Add Movement");
+    return response.json();
+  });
 }
