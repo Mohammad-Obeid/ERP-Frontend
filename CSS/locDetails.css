@@ -1,40 +1,41 @@
 .backbtn{
-    width: 120px;
-    border: solid black;
-    border-radius: 19px;
-    text-align: center;
-    padding: 5px;
-    margin-top: 10px;
-    margin-left: 2px;
-    display: inline-block;
+  width: 7.5rem;
+  border: solid black;
+  border-radius: 1.1875rem;
+  text-align: center;
+  padding: 0.3125rem;
+  margin-top: 0.625rem;
+  margin-left: 0.125rem;
+  display: inline-block;
 }
 
 .backbtn:hover{
-    color: tomato;
+  color: tomato;
 }
 
 .addNewProduct{
-  width: 440px;
+  width: 27.5rem;
   border: solid black;
-  border-radius: 19px;
+  border-radius: 1.1875rem;
   text-align: center;
-  padding: 5px;
+  padding: 0.3125rem;
   display: flex;
   margin-left: 62%;
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
+
 .addNewProduct:hover{
-color: tomato;
+  color: tomato;
 }
+
 footer {
   width: 100%;
   background-color: #343a40;
   color: white;
   text-align: center;
-  padding: 20px;
+  padding: 1.25rem;
   position: relative;
-  margin-top: 20px;
+  margin-top: 4.375rem;
   bottom: 0;
-  margin-bottom: 1px;
-  margin-top: 70px;
+  margin-bottom: 0.0625rem;
 }

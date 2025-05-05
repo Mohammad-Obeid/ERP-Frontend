@@ -1,14 +1,16 @@
-.container{
-    margin: 40px;
-    padding: 10px;
-    border: 3px solid green;
+.container {
+    margin: 2.5rem;
+    padding: 0.625rem;
+    border: 0.1875rem solid green;
     justify-content: center;
     align-items: center;
+    overflow-x: auto;
 }
-.tabl{
-    min-width: 1000px;
-    max-width: 1200px;
-    padding: 20px;
+
+.tabl {
+    min-width: 62.5rem;
+    max-width: 75rem;
+    padding: 1.25rem;
 }
 
 .paginationControls button:not(:disabled):hover {
@@ -17,52 +19,53 @@
 
 .pagination {
     text-align: center;
-    padding-bottom: 50px;
+    padding-bottom: 3.125rem;
     justify-content: center;
-    align-items: center; 
-    
+    align-items: center;
 }
 
 .page-btn {
-    padding: 10px 20px;
-    margin: 0 10px;
+    padding: 0.625rem 1.25rem;
+    margin: 0 0.625rem;
     border: none;
     background-color: #5371ff;
     color: white;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
 }
+
 .page-btn:hover {
     background-color: #4056b5;
 }
 
 #currentPage {
-    font-size: 18px;
-    padding: 10px 20px;
-    margin: 0 ;
+    font-size: 1.125rem;
+    padding: 0.625rem 1.25rem;
+    margin: 0;
 }
 
-.backbtn{
-    width: 120px;
+.backbtn {
+    width: 7.5rem;
     border: solid black;
-    border-radius: 19px;
+    border-radius: 1.1875rem;
     text-align: center;
-    padding: 5px;
-    margin-bottom: 10px;
-    margin-left: 2px;
+    padding: 0.3125rem;
+    margin-bottom: 0.625rem;
+    margin-left: 0.125rem;
     display: inline-block;
 }
 
-.backbtn:hover{
+.backbtn:hover {
     color: tomato;
 }
+
 footer {
     width: 100%;
     background-color: #343a40;
     color: white;
     text-align: center;
-    padding: 20px;
+    padding: 1.25rem;
     position: fixed;
     bottom: 0;
-    margin-bottom: 0px;
-  }
+    margin-bottom: 0;
+}

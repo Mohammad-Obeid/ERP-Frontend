@@ -1,14 +1,13 @@
 .container {
     background-color: blanchedalmond;
-    border: 3px solid black;
-    border-radius: 5px;
-    /* margin: 50px auto;  */
-    margin-top: 20px;
+    border: 0.1875rem solid black;
+    border-radius: 0.3125rem;
+    margin-top: 1.25rem;
     text-align: center;
-    min-height: 540px;
-    max-height: 740px;
-    padding: 5px;
-  }
+    min-height: 33.75rem;
+    max-height: 46.25rem;
+    padding: 0.3125rem;
+}
 
 .paginationControls button:not(:disabled):hover {
     background-color: #4158b1;
@@ -16,41 +15,42 @@
 
 .pagination {
     text-align: center;
-    margin-top: 20px;
-    margin-left: 22%;
+    margin-top: 1.25rem;
+    margin-left: 13.75%;
 }
 
 .page-btn {
-    padding: 10px 20px;
-    margin: 0 10px;
+    padding: 0.625rem 1.25rem;
+    margin: 0 0.625rem;
     border: none;
     background-color: #5371ff;
     color: white;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
 }
+
 .page-btn:hover {
     background-color: #4056b5;
 }
 
 #currentPage {
-    font-size: 18px;
-    padding: 10px 20px;
-    margin: 0 10px;
+    font-size: 1.125rem;
+    padding: 0.625rem 1.25rem;
+    margin: 0 0.625rem;
 }
 
-.backbtn{
-    width: 120px;
+.backbtn {
+    width: 7.5rem;
     border: solid black;
-    border-radius: 19px;
+    border-radius: 1.1875rem;
     text-align: center;
-    padding: 5px;
-    margin-bottom: 10px;
-    margin-left: 2px;
+    padding: 0.3125rem;
+    margin-bottom: 0.625rem;
+    margin-left: 0.125rem;
     display: inline-block;
 }
 
-.backbtn:hover{
+.backbtn:hover {
     color: tomato;
 }
 
@@ -61,7 +61,6 @@ footer {
     text-align: center;
     position: relative;
     bottom: 0;
-    margin-bottom: 0px;
-    padding: 10px;
-    
-  }
+    margin-bottom: 0;
+    padding: 0.625rem;
+}
