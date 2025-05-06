@@ -49,7 +49,7 @@ function fetchMoves(page) {
         prevButton.style.cursor = "pointer";
         prevButton.style.color = "";
       }
-      let pageNum = Number(numOfPages) - 1;
+      let pageNum = Number(numOfPages);
       if (currentPage >= pageNum || numOfPages === 0) {
         nextButton.disabled = true;
         nextButton.style.backgroundColor = "darkgray";

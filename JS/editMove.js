@@ -70,8 +70,14 @@ function update() {
     newmov.toLocation = sels[1].value;
     newmov.quantity = Number(inputs[4].value);
     prevMov.quantity = Number(mov.quantity) - Number(inputs[4].value);
-    upd(prevMov);
-    addNewMov(newmov);
+    if (prevMov.quantity >= 0) {
+      upd(prevMov);
+      addNewMov(newmov);
+    } else {
+      prevMov.quantity = 0;
+      upd(prevMov);
+      addNewMov(newmov);
+    }
 
     localStorage.removeItem("movement");
     location.href = "movements.html";
